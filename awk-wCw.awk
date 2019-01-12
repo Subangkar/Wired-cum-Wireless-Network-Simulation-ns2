@@ -44,7 +44,7 @@ BEGIN {
 
 			
 
-			if ( strAgt == "AGT"   &&   strType == "tcp" ) {
+			if (strType == "tcp" ) {
 				if (idPacket > idHighestPacket) idHighestPacket = idPacket;
 				if (idPacket < idLowestPacket) idLowestPacket = idPacket;
 
@@ -53,19 +53,14 @@ BEGIN {
 
 				if ( strEvent == "s" ) {
 					nSentPackets += 1 ;	rSentTime[ idPacket ] = rTime ;
-		#			printf("%15.5f\n", nSentPackets);
 				}
 
 				if ( strEvent == "r" && idPacket >= idLowestPacket) {
 					nReceivedPackets += 1 ;		nReceivedBytes += nBytes;
-		#			printf("%15.0f\n", nBytes);
 					rReceivedTime[ idPacket ] = rTime ;
 					rDelay[idPacket] = rReceivedTime[ idPacket] - rSentTime[ idPacket ];
-		#			rTotalDelay += rReceivedTime[ idPacket] - rSentTime[ idPacket ];
 					rTotalDelay += rDelay[idPacket]; 
 					node_thr[node] += nBytes;
-
-		#			printf("%15.5f   %15.5f\n", rDelay[idPacket], rReceivedTime[ idPacket] - rSentTime[ idPacket ]);
 				}
 			}
 
@@ -78,8 +73,6 @@ BEGIN {
 
 			if( strType == "tcp" )
 			{
-		#		printf("%d \n", idPacket);
-		#		printf("%d %15d\n", idPacket, num_retransmit);
 				retransmit[idPacket] = num_retransmit;		
 			}
 			
@@ -165,7 +158,6 @@ END {
 
 	for (i=0; i<max_pckt; i++) {
 		total_retransmit += retransmit[i] ;		
-#		printf("%d %15.5f\n", i, retransmit[i]);
 	}
 
 	printf( "%15.2f\n%15.5f\n%15.2f\n%15.2f\n%15.2f\n%10.2f\n%10.2f\n%10.5f\n", rThroughput, rAverageDelay, nSentPackets, nReceivedPackets, nDropPackets, rPacketDeliveryRatio, rPacketDropRatio,rTime) ;

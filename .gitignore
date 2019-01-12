@@ -4,3 +4,9 @@
 *.nam
 
 *.tmp
+
+*.out
+
+*.png
+
+*.graph
